@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Sun, Moon } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { useDarkMode } from "../../hooks/useDarkMode";
 
 const Navbar = () => {
@@ -107,13 +108,14 @@ const Navbar = () => {
             )}
           </button>
 
-          <a href="#login" className="text-sm font-medium hover:opacity-80 transition-opacity" style={{ 
+          <Link to="/sign-in" className="text-sm font-medium hover:opacity-80 transition-opacity" style={{ 
             color: 'var(--accent-color)' 
           }}>
             Login
-          </a>
+          </Link>
 
-          <button
+          <Link
+            to="/sign-up"
             className="px-6 py-2 text-sm font-medium rounded-md hover:opacity-90 transition-opacity"
             style={{
               backgroundColor: "var(--accent-color)",
@@ -121,7 +123,7 @@ const Navbar = () => {
             }}
           >
             Start Free
-          </button>
+          </Link>
         </div>
       </div>
 
@@ -133,7 +135,8 @@ const Navbar = () => {
             FLOWBIT
           </div>
           
-          <button
+          <Link
+            to="/sign-up"
             className="px-4 py-1 text-s font-medium rounded-[10px]"
             style={{
               backgroundColor: "var(--accent-color)",
@@ -141,7 +144,7 @@ const Navbar = () => {
             }}
           >
             Start Free
-          </button>
+          </Link>
         </div>
 
         {/* Navigation Links Container - Centered with Border */}
