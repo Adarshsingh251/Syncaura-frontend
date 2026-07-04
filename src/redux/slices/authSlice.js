@@ -12,10 +12,10 @@ const token = localStorage.getItem("accessToken") || localStorage.getItem("token
 
 const initialState = {
   user: null,
-  token,
+  token: storedToken,
   isLoading: false,
   error: null,
-  isAuthenticated: !!token,
+  isAuthenticated: !!storedToken,
   authChecking: true,
   profileLoading: false,
 };
@@ -42,6 +42,8 @@ const authSlice = createSlice({
       state.user = null;
       state.token = null;
       state.isAuthenticated = false;
+      state.authChecking = false;
+      localStorage.removeItem("token");
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
       localStorage.removeItem("token");
