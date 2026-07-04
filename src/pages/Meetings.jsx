@@ -7,7 +7,7 @@ import Sidebar from "../components/Meeting/Sidebar/Sidebar";
 import { AnimatePresence, motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 //import { getMeetings } from "../redux/features/meetingThunks";
-import { useState, useMemo, useEffect, useCallback } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const demoMeetings = [
@@ -55,7 +55,7 @@ const demoMeetings = [
     platform: "Google Meet",
     avatarCount: 1,
     isDoc: false,
-  }
+  },
 ];
 
 export default function Meetings() {
@@ -69,10 +69,6 @@ export default function Meetings() {
   const [direction, setDirection] = useState(0);
   const [activeFilter, setActiveFilter] = useState("all");
 
-  useEffect(() => {
-    console.log("Meetings page loaded");
-  }, []);
-
   const getMeetingType = useCallback((startTime, endTime) => {
     const now = new Date();
     const start = new Date(startTime);
@@ -83,41 +79,38 @@ export default function Meetings() {
     return "past";
   }, []);
 
-  const handleFilterChange = useCallback((filter) => {
-    const order = ["all", "upcoming", "ongoing", "past"];
+  const handleFilterChange = useCallback(
+    (filter) => {
+      const order = ["all", "upcoming", "ongoing", "past"];
 
-    const currentIndex = order.indexOf(activeFilter);
-    const nextIndex = order.indexOf(filter);
+      const currentIndex = order.indexOf(activeFilter);
+      const nextIndex = order.indexOf(filter);
 
-    setDirection(nextIndex > currentIndex ? 1 : -1);
-    setActiveFilter(filter);
-  }, [activeFilter]);
+      setDirection(nextIndex > currentIndex ? 1 : -1);
+      setActiveFilter(filter);
+    },
+    [activeFilter],
+  );
 
   const filteredMeetings = useMemo(() => {
     if (activeFilter === "all") return demoMeetings;
-  
+
     return demoMeetings.filter(
       (meeting) =>
-        getMeetingType(
-          meeting.startTime,
-          meeting.endTime
-        ) === activeFilter
+        getMeetingType(meeting.startTime, meeting.endTime) === activeFilter,
     );
   }, [activeFilter, getMeetingType]);
   return (
     <>
       <Sidebar open={sidebarOpen} setOpen={setSidebarOpen} />
-  
+
       <div className="flex min-h-screen bg-[#f8fafc] dark:bg-[#0f0f0f]">
-  
-        {/* Main Content */}<div className="flex-1 flex flex-col ">
-  
+        {/* Main Content */}
+        <div className="flex-1 flex flex-col ">
           {/* Header */}
           <div className="w-full bg-white dark:bg-[#1a1a1a] border-b border-[#e5e7eb] dark:border-[#2c2c2c] px-4 py-2 shadow-sm">
-  
             {/* Mobile Header */}
             <div className="flex lg:hidden items-center justify-between">
-  
               <div className="flex items-center gap-3">
                 <button
                   onClick={() => setSidebarOpen(true)}
@@ -125,7 +118,7 @@ export default function Meetings() {
                 >
                   <FaBars className="text-2xl text-black dark:text-white" />
                 </button>
-  
+
                 <h1 className="text-2xl font-bold text-black dark:text-white">
                   Meetings
                 </h1>
@@ -138,14 +131,12 @@ export default function Meetings() {
     className="text-[#111827] dark:text-white"
   />
 
-  <span className="text-sm font-medium">
-    Sync Calendar
-  </span>
-</button>
+                <span className="text-sm font-medium">Sync Calendar</span>
+              </button>
             </div>
-  
-            {/* Desktop Header */}<div className="hidden lg:flex items-start justify-between">
-  
+
+            {/* Desktop Header */}
+            <div className="hidden lg:flex items-start justify-between">
               <div>
                 <h1 className="text-2xl font-bold text-[#111827] dark:text-white">
                   Meetings
@@ -162,18 +153,15 @@ export default function Meetings() {
     className="text-[#111827] dark:text-white"
   />
 
-  <span className="text-[13px] font-medium">
-    Sync Calendar
-  </span>
-</button>
+                <span className="text-[13px] font-medium">Sync Calendar</span>
+              </button>
             </div>
           </div>
-  
+
           {/* Content Area */}
           <div className="px-5 py-4 max-w-[1050px] mx-auto w-full">
             {/* Filter + Search */}
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-  
               {/* Tabs */}
               <div>
                 <FilterTabs
@@ -181,7 +169,7 @@ export default function Meetings() {
                   setActiveFilter={handleFilterChange}
                 />
               </div>
-  
+
               {/* Right Controls */}
               <div className="flex flex-col sm:flex-row gap-2">
   
@@ -192,9 +180,9 @@ export default function Meetings() {
                     Filter
                   </span>
                 </button>
-  
+
                 <div
-  className="
+                  className="
     flex items-center
     bg-white dark:bg-[#2a2a2a]
     border border-[#f1f1f1]
@@ -204,9 +192,9 @@ export default function Meetings() {
     w-[180px]
     shadow-[0_2px_8px_rgba(0,0,0,0.04)]
   "
->
-  <FaSearch className="text-[13px] text-[#9ca3af]" />
-  
+                >
+                  <FaSearch className="text-[13px] text-[#9ca3af]" />
+
                   <input
                     type="text"
                     placeholder="Search meetings..."
@@ -215,13 +203,12 @@ export default function Meetings() {
                 </div>
               </div>
             </div>
-  
+
             {/* Divider */}
             <div className="w-full h-[1px] bg-[#e5e7eb] dark:bg-[#2f2f2f] mt-6" />
-  
+
             {/* Meeting Cards */}
             <div className="mt-8">
-  
               <AnimatePresence mode="wait" custom={direction}>
                 <motion.div
                   key={activeFilter}
@@ -241,27 +228,21 @@ export default function Meetings() {
                   transition={{
                     duration: 0.3,
                   }}
-                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-items-start">
+                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-items-start"
+                >
                   {filteredMeetings.map((meeting) => (
-                    <MeetingCard
-                      key={meeting.id}
-                      {...meeting}
-                    />
+                    <MeetingCard key={meeting.id} {...meeting} />
                   ))}
                 </motion.div>
               </AnimatePresence>
-  
             </div>
           </div>
         </div>
-  
+
         {modalOpen && (
-      
-          <ScheduleMeetingModal
-          onClose={() => setModalOpen(false)}
-        />
-          
+          <ScheduleMeetingModal onClose={() => setModalOpen(false)} />
         )}
       </div>
     </>
-  );}
+  );
+}

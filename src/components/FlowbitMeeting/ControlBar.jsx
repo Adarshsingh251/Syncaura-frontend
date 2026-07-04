@@ -72,8 +72,8 @@ const ControllBar = ({
               !isMicOn
                 ? "bg-red-200 text-red-600"
                 : isDarkTheme
-                ? "bg-[#2E2F2F] text-[#FFFFFF]"
-                : "bg-[#F8F8F8] text-[#000000]"
+                  ? "bg-[#2E2F2F] text-[#FFFFFF]"
+                  : "bg-[#F8F8F8] text-[#000000]"
             }`}
           >
             {isMicOn ? <Mic size={20} /> : <MicOff size={20} />}
@@ -87,8 +87,8 @@ const ControllBar = ({
               !isCameraOn
                 ? "bg-red-200 text-red-600"
                 : isDarkTheme
-                ? "bg-[#2E2F2F] text-[#FFFFFF]"
-                : "bg-[#F8F8F8] text-[#000000]"
+                  ? "bg-[#2E2F2F] text-[#FFFFFF]"
+                  : "bg-[#F8F8F8] text-[#000000]"
             }`}
           >
             {isCameraOn ? <Video size={20} /> : <VideoOff size={20} />}
@@ -96,29 +96,27 @@ const ControllBar = ({
 
           {/* SCREEN SHARE */}
           <button
-            onClick={() => {
+            onClick={async () => {
               if (isScreenSharing) {
                 stopScreenShare();
                 setParticipants((prev) =>
-                  prev.map((p) =>
-                    p.isHost ? { ...p, isSharing: false } : p
-                  )
+                  prev.map((p) => (p.isHost ? { ...p, isSharing: false } : p)),
                 );
               } else {
-                startScreenShare();
-                setParticipants((prev) =>
-                  prev.map((p) =>
-                    p.isHost ? { ...p, isSharing: true } : p
-                  )
-                );
+                const started = await startScreenShare();
+                if (started) {
+                  setParticipants((prev) =>
+                    prev.map((p) => (p.isHost ? { ...p, isSharing: true } : p)),
+                  );
+                }
               }
             }}
             className={`btn-hover w-15 h-11 rounded-full flex items-center justify-center transition ${
               isScreenSharing
                 ? "bg-red-200 text-red-600"
                 : isDarkTheme
-                ? "bg-[#2E2F2F] text-[#FFFFFF]"
-                : "bg-[#F8F8F8] text-[#000000]"
+                  ? "bg-[#2E2F2F] text-[#FFFFFF]"
+                  : "bg-[#F8F8F8] text-[#000000]"
             }`}
           >
             <Monitor size={20} />
@@ -151,17 +149,15 @@ const ControllBar = ({
           <button
             onClick={() =>
               setRaisedHands((prev) =>
-                prev.includes(1)
-                  ? prev.filter((id) => id !== 1)
-                  : [...prev, 1]
+                prev.includes(1) ? prev.filter((id) => id !== 1) : [...prev, 1],
               )
             }
             className={`btn-hover w-15 h-11 rounded-full flex items-center justify-center ${
               raisedHands.includes(1)
                 ? "bg-blue-500 text-white"
                 : isDarkTheme
-                ? "bg-[#2E2F2F] text-[#FFFFFF]"
-                : "bg-[#F8F8F8] text-[#000000]"
+                  ? "bg-[#2E2F2F] text-[#FFFFFF]"
+                  : "bg-[#F8F8F8] text-[#000000]"
             }`}
           >
             <Hand size={20} />
@@ -224,7 +220,9 @@ const ControllBar = ({
             className={`btn-hover ${activePanel === "detail" && "bg-[#989696]"} p-2 rounded-full`}
             onClick={() => setActivePanel("detail")}
           >
-            <CircleAlert className={`${activePanel === "detail" ? "text-white" : isDarkTheme ? "" : "text-black"} text-sm`} />
+            <CircleAlert
+              className={`${activePanel === "detail" ? "text-white" : isDarkTheme ? "" : "text-black"} text-sm`}
+            />
           </button>
 
           <button
@@ -240,14 +238,18 @@ const ControllBar = ({
                 {participants.length}
               </h1>
             </div>
-            <Users className={`${activePanel === "people" ? "text-white" : isDarkTheme ? "" : "text-black"} text-sm`} />
+            <Users
+              className={`${activePanel === "people" ? "text-white" : isDarkTheme ? "" : "text-black"} text-sm`}
+            />
           </button>
 
           <button
             className={`btn-hover ${activePanel === "chat" && "bg-[#989696]"} p-2 rounded-full`}
             onClick={() => setActivePanel("chat")}
           >
-            <MessageSquareText className={`${activePanel === "chat" ? "text-white" : isDarkTheme ? "" : "text-black"} text-sm`} />
+            <MessageSquareText
+              className={`${activePanel === "chat" ? "text-white" : isDarkTheme ? "" : "text-black"} text-sm`}
+            />
           </button>
 
           <button className="btn-hover">
@@ -323,14 +325,14 @@ const ControllBar = ({
 
           {/* EMOJI PICKER MOBILE */}
           <AnimatePresence>
-            {showEmojiPicker && (
+            {Object.entries(emojiReactions).map(([id, emoji]) => (
               <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 10 }}
-                className="absolute bottom-16 left-1/2 -translate-x-1/2
-          bg-white dark:bg-[#2a2a2a] shadow-lg rounded-full px-4 py-2
-          flex gap-3 z-30"
+                key={id}
+                initial={{ y: 0, opacity: 0, scale: 0.8 }}
+                animate={{ y: -250, opacity: 1, scale: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 1.8, ease: "easeOut" }}
+                className="absolute text-5xl mb-24"
               >
                 {emojiList.map((emoji) => (
                   <button
@@ -345,9 +347,37 @@ const ControllBar = ({
                   </button>
                 ))}
               </motion.div>
-            )}
+            ))}
           </AnimatePresence>
         </div>
+
+        {/* EMOJI PICKER MOBILE */}
+        <AnimatePresence>
+          {showEmojiPicker && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
+              className="absolute bottom-16 left-1/2 -translate-x-1/2
+          bg-white dark:bg-[#2a2a2a] shadow-lg rounded-full px-4 py-2
+          flex gap-3 z-30"
+            >
+              {emojiList.map((emoji) => (
+                <button
+                  key={emoji}
+                  onClick={() => {
+                    sendEmojiReaction(emoji);
+                    setShowEmojiPicker(false);
+                  }}
+                  className="text-2xl hover:scale-125 transition"
+                >
+                  {emoji}
+                </button>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </div>
   );
 };
