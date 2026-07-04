@@ -43,25 +43,29 @@ export default function App() {
   useEffect(() => {
     dispatch(refreshAccessToken());
 
-    // Listen to session expiration event from Axios interceptor
-    const handleSessionExpired = () => {
-      dispatch(logout());
-    };
-    window.addEventListener("auth_session_expired", handleSessionExpired);
-
-    // ✅ BACKEND CONNECTION TEST
+    // Backend connection test
     fetch("/api/test")
-      .then((res) => res.json())
+      .then(async (res) => {
+        if (!res.ok) {
+          throw new Error(`HTTP Error: ${res.status}`);
+        }
+
+        const contentType = res.headers.get("content-type");
+
+        if (!contentType || !contentType.includes("application/json")) {
+          throw new Error(
+            "Expected JSON response but received something else.",
+          );
+        }
+
+        return res.json();
+      })
       .then((data) => {
         console.log("✅ Backend Connected:", data);
       })
       .catch((err) => {
-        console.error("❌ Backend NOT connected:", err);
+        console.error("❌ Backend Connection Error:", err.message);
       });
-
-    return () => {
-      window.removeEventListener("auth_session_expired", handleSessionExpired);
-    };
   }, [dispatch]);
 
   if (authChecking) {
