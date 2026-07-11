@@ -1,10 +1,10 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import heroTeam from "../../assets/hero-team.png";
 import { Link } from "react-router-dom";
 
 const Hero = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const scrollToFeatures = (e) => {
     e.preventDefault();
@@ -55,18 +55,6 @@ const Hero = () => {
 
               <button
                 onClick={scrollToFeatures}
-                className="px-8 md:px-5 py-2.5 border text-sm font-medium hover:opacity-70 transition-opacity btn-hover"
-                style={{
-                  borderColor: 'var(--border-color)',
-                  color: 'var(--text-primary)'
-                }}
-              >
-                Features
-              </button>
-            </div>
-
-              <button
-                onClick={scrollToFeatures}
                 className="w-full sm:w-auto px-6 py-2.5 border text-sm font-medium hover:opacity-70 transition-opacity"
                 style={{
                   borderColor: 'var(--border-color)',
@@ -76,18 +64,8 @@ const Hero = () => {
                 Features
               </button>
 
-          {/* Image */}
-          <div className="flex justify-center md:justify-start mt-6 md:mt-0">
-            <div className="w-full max-w-sm md:max-w-xl">
-              <img
-                src={heroTeam}
-                alt="Team collaboration illustration"
-                className="w-full h-auto"
-                fetchPriority="high"
-                decoding="async"
-              />
-            </div>
           </div>
+        </div>
 
           {/* IMAGE */}
           <div className="w-full md:w-1/2 flex justify-center">
