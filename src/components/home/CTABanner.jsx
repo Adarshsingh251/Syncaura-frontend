@@ -33,16 +33,20 @@ const CTABanner = () => {
             </p>
             
             {/* Buttons - SIDE BY SIDE on mobile! */}
-            <div className="flex gap-3 md:gap-4 w-full max-w-md">
-              <Link to="/sign-up" className="flex-1">
-                <button className="w-full px-6 py-3 bg-white text-gray-900 text-sm font-medium hover:opacity-90 transition-colors btn-hover">
-                  Get started
-                </button>
-              </Link>
-              <button className="flex-1 px-6 py-3 border-2 border-white bg-transparent text-white text-sm font-medium hover:bg-white/10 transition-colors btn-hover">
-                Learn more
-              </button>
-            </div>
+           <div className="flex justify-center items-center gap-4 w-full mt-8">
+  <button
+    onClick={() => window.location.href = "/signup.html"}
+    className="w-44 h-12 bg-white text-gray-900 text-sm font-medium hover:opacity-90 transition-colors btn-hover"
+  >
+    Get started
+  </button>
+
+  <button
+    className="w-44 h-12 border-2 border-white bg-transparent text-white text-sm font-medium hover:bg-white/10 transition-colors btn-hover"
+  >
+    Learn more
+  </button>
+</div>
           </div>
         </div>
       </div>
