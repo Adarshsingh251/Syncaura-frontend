@@ -147,7 +147,7 @@ const Navbar = () => {
           </button>
 
         <button
-  onClick={() => window.location.href = "/loginpage.html"}
+    onClick={() => navigate("/signin")}
   className="text-sm font-medium hover:opacity-80 transition-opacity"
   style={{ color: "var(--accent-color)" }}
 >
@@ -155,7 +155,7 @@ const Navbar = () => {
 </button>
 
           <button
-            onClick={() => window.location.href = "/signup.html"}
+            onClick={() => navigate("/signup")}
             className="px-6 py-2 text-sm font-medium rounded-md hover:opacity-90 transition-opacity"
             style={{
               backgroundColor: "var(--accent-color)",
@@ -178,7 +178,7 @@ const Navbar = () => {
           </div>
 
           <button
-            onClick={() => navigate("/sign-up")}
+            onClick={() => navigate("/SignUp")}
             className="px-4 py-1 text-sm font-medium rounded-[10px]"
             style={{
               backgroundColor: "var(--accent-color)",

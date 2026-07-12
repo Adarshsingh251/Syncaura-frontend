@@ -42,7 +42,7 @@ const Hero = () => {
             {/* Buttons - Exact Figma Layout */}
            <div className="flex justify-center md:justify-start gap-3 pt-6">
           <button
-           onClick={() => window.location.href = "/signup.html"}
+           onClick={() => window.location.href = "/SignUp"}
            className="px-8 md:px-5 py-2.5 text-sm font-medium hover:opacity-90 transition-opacity w-full md:w-auto btn-hover"
             style={{
             backgroundColor: "var(--accent-color)",
