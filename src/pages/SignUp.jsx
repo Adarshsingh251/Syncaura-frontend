@@ -4,6 +4,8 @@ import { FcGoogle } from 'react-icons/fc'
 import { FaGithub, FaFacebookF } from 'react-icons/fa'
 import leftArt from "../assets/left-art.png";
 import "./style9.css";
+import api from "../config/axios.js";
+import { useNavigate } from "react-router-dom";
 
 function PasswordField({ label, value, onChange }) {
   const [visible, setVisible] = useState(false)
@@ -17,13 +19,41 @@ function PasswordField({ label, value, onChange }) {
 }
 
 export default function SignUpPage() {
+    const navigate = useNavigate();
   const [form, setForm] = useState({ name: '', email: '', password: '', confirm: '' })
   const [message, setMessage] = useState('')
   const update = key => event => setForm({ ...form, [key]: event.target.value })
 
-  function handleSubmit(event) {
-    event.preventDefault()
-    setMessage(form.password === form.confirm ? 'Account created successfully!' : 'Passwords do not match.')
+  async function handleSubmit(event) {
+    event.preventDefault();
+
+    if (form.password !== form.confirm) {
+      setMessage("Passwords do not match.");
+      return;
+    }
+
+    try {
+      const response = await api.post("/auth/register", {
+        name: form.name,
+        email: form.email,
+        password: form.password,
+      });
+
+      console.log("Register success:", response.data);
+
+      setMessage("Account created successfully!");
+
+      setTimeout(() => {
+        navigate("/signin");
+      }, 1000);
+
+    } catch (error) {
+      console.log("Register error:", error.response?.data);
+
+      setMessage(
+        error.response?.data?.message || "Registration failed"
+      );
+    }
   }
 
   return <main className="page"><section className="auth-card">
@@ -47,7 +77,7 @@ export default function SignUpPage() {
         <button type="button" aria-label="Continue with GitHub"><FaGithub size={22} /></button>
         <button type="button" className="facebook" aria-label="Continue with Facebook"><FaFacebookF size={19} /></button>
       </div>
-      <p className="switch">Already have an account? <a href="#login">Log In</a></p>
+      <p className="switch">Already have an account? <a href="/signin">Log In</a></p>
     </form></div>
   </section></main>
 }

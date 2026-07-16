@@ -378,7 +378,6 @@ const ControlBar = ({
           )}
         </AnimatePresence>
       </div>
-    </div>
   );
 };
 

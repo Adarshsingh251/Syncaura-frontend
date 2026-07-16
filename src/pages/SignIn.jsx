@@ -5,18 +5,59 @@ import { FcGoogle } from 'react-icons/fc'
 import { FaGithub, FaFacebookF } from 'react-icons/fa'
 import leftArt from "../assets/left-art.png";
 import "./style9.css";
+import api from "../config/axios.js";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../redux/features/authThunks";
 
 export default function SignIn() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [visible, setVisible] = useState(false)
   const [message, setMessage] = useState('')
 
-  function handleSubmit(event) {
-    event.preventDefault()
-    setMessage('Welcome back! You’re logged in.')
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+
+    try {
+      const result = await dispatch(
+        loginUser({
+          email,
+          password,
+        })
+      );
+
+      console.log("Login success:", response.data);
+
+      localStorage.setItem(
+        "accessToken",
+        response.data.tokens.accessToken
+      );
+
+      localStorage.setItem(
+        "refreshToken",
+        response.data.tokens.refreshToken
+      );
+
+      // dispatch(setUser(response.data.user));
+      console.log(response);
+
+      setMessage("Welcome back! You’re logged in.");
+
+      navigate("/user-dashboard");
+      console.log("hi i am done");
+
+
+    } catch (error) {
+      console.log("Login error:", error.response?.data);
+
+      setMessage(
+        error.response?.data?.message || "Login failed"
+      );
+    }
   }
 
   return <main className="page"><section className="auth-card">
@@ -33,16 +74,16 @@ export default function SignIn() {
       {message && <p className="message" role="status">{message}</p>}
       <div className="divider"><span>OR</span></div>
       <div className="socials"><button type="button" aria-label="Continue with Google"><FcGoogle size={23} /></button><button type="button" aria-label="Continue with GitHub"><FaGithub size={22} /></button><button type="button" className="facebook" aria-label="Continue with Facebook"><FaFacebookF size={19} /></button></div>
-     
-     <p className="switch">
-  Don't have an account?{" "}
-  <button
-    type="button"
-    onClick={() => navigate("/signup")}
-  >
-    Sign Up
-  </button>
-</p>
+
+      <p className="switch">
+        Don't have an account?{" "}
+        <button
+          type="button"
+          onClick={() => navigate("/signup")}
+        >
+          Sign Up
+        </button>
+      </p>
 
     </form></div>
   </section></main>

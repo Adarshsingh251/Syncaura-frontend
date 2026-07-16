@@ -40,6 +40,7 @@ export const refreshAccessToken = createAsyncThunk(
 
       return res.data;
     } catch (err) {
+      console.log(err);
       return rejectWithValue("Session expired");
     }
   }
