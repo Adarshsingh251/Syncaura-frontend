@@ -11,7 +11,7 @@ const Meetings = lazy(() => import("./pages/Meetings"));
 const Chat = lazy(() => import("./pages/Chat"));
 const Documents = lazy(() => import("./pages/Documents"));
 const UserDashboard = lazy(() => import("./pages/UserDashboard"));
-const Dashboard = lazy(() => import("./pages/Dashboard"));
+// const Dashboard = lazy(() => import("./pages/Dashboard"));
 const SignIn = lazy(() => import("./pages/SignIn"));
 const SignUp = lazy(() => import("./pages/SignUp"));
 const Complaints = lazy(() => import("./pages/Complaints"));
@@ -29,7 +29,7 @@ import MobileSidebar from "./components/MobileSidebar";
 
 import { ToastContainer, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { refreshAccessToken } from "./redux/features/authThunks";
+import { refreshAccessToken, fetchUserProfile } from "./redux/features/authThunks";
 import { logout } from "./redux/slices/authSlice";
 import { Loader } from "lucide-react";
 import ProtectRoute from "./RouteProtection/ProtectRoute";
@@ -44,7 +44,7 @@ export default function App() {
     dispatch(refreshAccessToken());
 
     // Backend connection test
-    fetch("/api/test")
+    fetch("/health")
       .then(async (res) => {
         if (!res.ok) {
           throw new Error(`HTTP Error: ${res.status}`);
